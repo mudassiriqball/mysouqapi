@@ -6,27 +6,29 @@ const User = new Schema({
     id: {
         type: Number,
         unique: true,
-        sparse:true
+        sparse: true
     },
-     name: {
+    name: {
         type: String
     },
-     email: {
+    email: {
         type: String,
         unique: true,
-        sparse:true
-
+        sparse: true
     },
-     password: {
+    password: {
         type: String
     },
     role: {
         type: String
     },
-    department: {
+    address: {
         type: String
     },
-    designation: {
+    shop_name: {
+        type: String
+    },
+    city: {
         type: String
     },
     avatar: {
@@ -35,7 +37,7 @@ const User = new Schema({
     avatar_ext: {
         type: String
     },
-  
+
     is_deleted: {
         type: Number,
         default: 0
@@ -44,11 +46,11 @@ const User = new Schema({
 
 User.plugin(mongoosePaginate);
 
-User.methods.toJSON = function() {
+User.methods.toJSON = function () {
     var obj = this.toObject();
     delete obj.password;
     return obj;
-   }
+}
 // User.index({'$**': 'text'});
 
 module.exports = mongoose.model("User", User);

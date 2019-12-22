@@ -2,16 +2,22 @@ const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate');
 const Schema = mongoose.Schema;
 
-const Book = new Schema({
-     name: {
+const Product = new Schema({
+    category: {
         type: String
     },
-     ibn: {
+    name: {
+        type: String
+    },
+    size: {
+        type: String
+    },
+    quantity: {
         type: String,
         unique: true,
-        sparse:true
+        sparse: true
     },
-     author: {
+    address: {
         type: String
     },
     image_url: {
@@ -23,6 +29,6 @@ const Book = new Schema({
     }
 });
 
-Book.plugin(mongoosePaginate);
+Product.plugin(mongoosePaginate);
 
-module.exports = mongoose.model("Book", Book);
+module.exports = mongoose.model("Product", Product);
