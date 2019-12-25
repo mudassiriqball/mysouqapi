@@ -3,9 +3,6 @@ const mongoosePaginate = require('mongoose-paginate');
 const Schema = mongoose.Schema;
 
 const Product = new Schema({
-    category: {
-        type: String
-    },
     name: {
         type: String
     },
@@ -16,6 +13,9 @@ const Product = new Schema({
         type: String,
         unique: true,
         sparse: true
+    },
+    category: {
+        type: String
     },
     address: {
         type: String

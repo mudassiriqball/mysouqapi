@@ -2,7 +2,7 @@ const usersController = {};
 const Users = require('../models/users.model');
 const path = require('path');
 const bcrypt = require('bcryptjs');
-const jsonwebtoken =  require('jsonwebtoken');
+const jsonwebtoken = require('jsonwebtoken');
 
 usersController.getAll = async (req, res) => {
   let users;
@@ -48,85 +48,71 @@ usersController.getSingleUser = async (req, res) => {
 usersController.registerUser = async (req, res) => {
   try {
     const body = req.body;
-
     // there must be a password in body
-
     // we follow these 2 steps
-
     const password = body.password;
-
     var salt = bcrypt.genSaltSync(10);
     var hash = bcrypt.hashSync(password, salt);
-
     body.password = hash;
     const user = new Users(body);
-
     const result = await user.save();
-
     res.send({
       message: 'Signup successful'
     });
   } catch (ex) {
     console.log('ex', ex);
-    if(ex.code===11000){
+    if (ex.code === 11000) {
       res
-      .send({
-        message: 'This email has been registered already',
-      })
-      .status(500);
+        .send({
+          message: 'This email has been registered already',
+        })
+        .status(500);
     }
     else {
-    res
-      .send({
-        message: 'Error',
-        detail: ex
-      })
-      .status(500);
-  }
+      res
+        .send({
+          message: 'Error',
+          detail: ex
+        })
+        .status(500);
+    }
   }
 };
 
 
 usersController.loginUser = async (req, res) => {
-    try {
-        const body = req.body;
-    
-        const email = body.email;
-    
-        // lets check if email exists
-    
-        const result = await Users.findOne({ email: email });
-        if (!result) {
-          // this means result is null
-          res.status(401).send({
-            Error: 'This user doesnot exists. Please signup first'
-          });
-        } else {
-          // email did exist
-          // so lets match password
-    
-          if ( bcrypt.compareSync(body.password, result.password)) {
-            // great, allow this user access
-                
-            result.password = undefined;
-    
-            const token = jsonwebtoken.sign({
-               data: result,
-               role: 'User'
-            }, process.env.JWT_KEY, { expiresIn: '7d' });
-            
-            res.send({ message: 'Successfully Logged in', token: token });
-          } 
-          
-          else {
-            console.log('password doesnot match');
-    
-            res.status(401).send({ message: 'Wrong email or Password' });
-          }
-        }
-      } catch (ex) {
-        console.log('ex', ex);
+  try {
+    const body = req.body;
+    const email = body.email;
+    // lets check if email exists
+    const result = await Users.findOne({ email: email });
+    if (!result) {
+      // this means result is null
+      res.status(401).send({
+        Error: 'This user doesnot exists. Please signup first'
+      });
+    } else {
+      // email did exist
+      // so lets match password
+
+      if (bcrypt.compareSync(body.password, result.password)) {
+        // great, allow this user access
+        result.password = undefined;
+        const token = jsonwebtoken.sign({
+          data: result,
+          role: 'User'
+        }, process.env.JWT_KEY, { expiresIn: '7d' });
+        res.send({ message: 'Successfully Logged in', token: token });
       }
+      else {
+        console.log('password doesnot match');
+
+        res.status(401).send({ message: 'Wrong email or Password' });
+      }
+    }
+  } catch (ex) {
+    console.log('ex', ex);
+  }
 };
 
 usersController.getNextId = async (req, res) => {
@@ -141,7 +127,6 @@ usersController.getNextId = async (req, res) => {
     } else {
       nextId = 1;
     }
-
     var data = {
       code: 200,
       data: { id: nextId }
@@ -162,7 +147,6 @@ usersController.deleteUser = async (req, res) => {
   }
   try {
     const _id = req.params._id;
-
     const result = await Users.findOneAndDelete({
       _id: _id
     });
@@ -197,6 +181,7 @@ usersController.uploadAvatar = async (req, res) => {
     return res.status(500).send(error);
   }
 };
+
 usersController.updateUser = async (req, res) => {
   if (!req.params._id) {
     res.status(500).send({
@@ -251,6 +236,7 @@ async function runUpdate(_id, updates, res) {
     return res.status(500).send(error);
   }
 }
+
 async function runUpdateById(id, updates, res) {
   try {
     const result = await Users.updateOne(
