@@ -89,12 +89,11 @@ usersController.loginUser = async (req, res) => {
     if (!result) {
       // this means result is null
       res.status(401).send({
-        Error: 'This user doesnot exists. Please signup first'
+        message: 'This user doesnot exists. Please signup first'
       });
     } else {
       // email did exist
       // so lets match password
-
       if (bcrypt.compareSync(body.password, result.password)) {
         // great, allow this user access
         result.password = undefined;
@@ -106,7 +105,6 @@ usersController.loginUser = async (req, res) => {
       }
       else {
         console.log('password doesnot match');
-
         res.status(401).send({ message: 'Wrong email or Password' });
       }
     }
@@ -120,7 +118,6 @@ usersController.getNextId = async (req, res) => {
     const max_result = await Users.aggregate([
       { $group: { _id: null, max: { $max: '$id' } } }
     ]);
-
     let nextId;
     if (max_result.length > 0) {
       nextId = max_result[0].max + 1;
