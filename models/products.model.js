@@ -21,7 +21,7 @@ const Product = new Schema({
         type: String
     },
     image: {
-        type: String,
+        type: Buffer,
     },
     is_deleted: {
         type: Boolean,
