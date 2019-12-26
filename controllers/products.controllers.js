@@ -31,19 +31,11 @@ productsController.getAll = async (req, res) => {
 productsController.addProduct = async (req, res) => {
     try {
         const body = req.body;
-        // const image = req.body.image;
-        // req.body.image = undefined;
-
-
         const product = new Products(body);
         // product.img.data = fs.readFileSync('./img.png');
-
         // product.img.data = fs.readFileSync(req.body.image);
 
-        let buff = new Buffer(data, 'base64');
-        // fs.writeFileSync('stack-abuse-logo-out.png', buff);
-
-        product.img.data = fs.writeFileSync('stack-abuse-logo-out.png', buff);
+        product.img.data = req.body.image;
         product.img.contentType = 'image/png';
 
         const result = await product.save();
