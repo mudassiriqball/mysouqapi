@@ -38,11 +38,12 @@ productsController.addProduct = async (req, res) => {
         const product = new Products(body);
         // product.img.data = fs.readFileSync('./img.png');
 
-        product.img.data = fs.readFileSync(req.body.image);
-        product.img.contentType = 'image/png';
+        // product.img.data = fs.readFileSync(req.body.image);
 
-        // product.img.data = fs.readFileSync(req.files.imagee.path);
-        // product.img.contentType = 'image/png';
+        var bitmap = new Buffer(base64str, 'base64');
+        fs.writeFileSync(file, bitmap);
+        product.img.data = fs.writeFileSync(file, bitmap);
+        product.img.contentType = 'image/png';
 
         const result = await product.save();
         res.status(200).send({
