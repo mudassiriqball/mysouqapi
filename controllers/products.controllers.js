@@ -37,7 +37,8 @@ productsController.addProduct = async (req, res) => {
 
         const product = new Products(body);
         // product.img.data = fs.readFileSync('./img.png');
-        product.img.data = fs.readFileSync(req.body.img);
+
+        product.img.data = fs.readFileSync(req.body.image);
         product.img.contentType = 'image/png';
 
         // product.img.data = fs.readFileSync(req.files.imagee.path);
@@ -50,7 +51,7 @@ productsController.addProduct = async (req, res) => {
         });
     } catch (error) {
         console.log('error', error);
-        return res.status(500).send(error);
+        return res.status(500).send({message: 'Product Added Successfully', error});
     }
 };
 module.exports = productsController;
