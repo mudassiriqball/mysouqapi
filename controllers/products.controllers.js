@@ -35,8 +35,7 @@ productsController.addProduct = async (req, res) => {
         // product.img.data = fs.readFileSync('./img.png');
         // product.img.data = fs.readFileSync(req.body.image);
 
-        product.img.data = req.body.image;
-        product.img.contentType = 'image/png';
+        // product.img.data = req.body.imag;
 
         const result = await product.save();
         res.status(200).send({
