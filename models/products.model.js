@@ -20,8 +20,9 @@ const Product = new Schema({
     address: {
         type: String
     },
-    image_url: {
-        type: String
+    img: {
+        data: Buffer, 
+        contentType: String 
     },
     is_deleted: {
         type: Boolean,

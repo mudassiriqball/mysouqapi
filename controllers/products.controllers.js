@@ -1,6 +1,9 @@
 const productsController = {};
 const Products = require('../models/products.model');
-
+const fs = require('fs');
+// fs.readdirSync(__dirname + "/models").forEach(function (file) {
+//   require(__dirname + "/models/" + file);
+// });
 productsController.getAll = async (req, res) => {
     let products;
     try {
@@ -27,13 +30,20 @@ productsController.getAll = async (req, res) => {
 
 productsController.addProduct = async (req, res) => {
     try {
-
         const body = req.body;
+        // const image = req.body.image;
+        // req.body.image = undefined;
+
 
         const product = new Products(body);
+        // product.img.data = fs.readFileSync('./img.png');
+        product.img.data = fs.readFileSync(req.body.img);
+        product.img.contentType = 'image/png';
+
+        // product.img.data = fs.readFileSync(req.files.imagee.path);
+        // product.img.contentType = 'image/png';
 
         const result = await product.save();
-
         res.status(200).send({
             code: 200,
             message: 'Product Added Successfully',
