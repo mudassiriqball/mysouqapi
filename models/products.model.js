@@ -20,10 +20,10 @@ const Product = new Schema({
     address: {
         type: String
     },
-    image: {
-        data: Buffer, 
-        contentType: String
-    },
+    // image: {
+    //     data: Buffer, 
+    //     contentType: String
+    // },
     is_deleted: {
         type: Boolean,
         default: false
