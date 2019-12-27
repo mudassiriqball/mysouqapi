@@ -68,14 +68,14 @@ productsController.getSingleProduct = async (req, res) => {
 
 
 productsController.deleteProduct = async (req, res) => {
-    if (!req._id) {
+    if (!req.params._id) {
         Fu;
         res.status(500).send({
             message: 'ID missing'
         });
     }
     try {
-        const _id = req._id;
+        const _id = req.params._id;
 
         const result = await Products.findOneAndDelete({
             _id: _id
